@@ -1,58 +1,37 @@
-# Town:Time v2 — the streets of the past
+# Town:Time
 
-A full-screen historical explorer that works on GitHub Pages with **no application server**, database, user accounts, or paid API keys.
+A photo-first historical explorer for Hinckley, published as a static GitHub Pages site.
 
-## Features
+## What the site does
 
-- Cinematic full-screen OpenStreetMap-powered map with location pins.
-- Year scrubber (1860–2026): **filters dated records**; does not change the age of the modern map.
-- Real, individually credited Hinckley archive photos and historically sourced local events.
-- Immersive full-screen photo scenes, keyboard navigation, and a guided chronological journey.
-- Interactive **then / later** slider comparing *two archival photographs* (different viewpoints may not align).
-- Open corresponding places directly in Google Street View (Google website, no Google imagery mixed with OSM).
-- Town search, geolocation, and geotagged Wikimedia Commons discovery.
-- Local memories, favourites and export/import with browser storage.
-- Responsive phone layout and optional gentle ambient audio.
+- Leads with individually credited, dated archive photographs.
+- Separates historical stories into their own clearly labelled view; stories are never given invented period imagery.
+- Filters records with one explicit “up to year” timeline.
+- Provides then-and-now sliders only where two dated archive photographs exist.
+- Maps records on a present-day OpenFreeMap/MapLibre map, with visible source attribution.
+- Replaces the map with a readable archive-first fallback if the map library or service fails.
+- Adapts to desktop and phone layouts without fixed side rails.
 
-## Publish to GitHub Pages
+## Data and image integrity
 
-1. Create a **public** GitHub repository for `town-time`.
-2. Copy `index.html`, `app.js`, `styles.css`, `data.js`, `.nojekyll`, and this README into the repository root.
-3. In your repository: **Settings > Pages > Deploy from a branch > main / (root)**.
-4. The site will become available at `https://YOURNAME.github.io/town-time/` once deployed.
+Curated records are in `data.js`. Every photograph includes a Wikimedia Commons filename, creator, licence, stated date, and location-accuracy note. The interface links to the original Commons file page. Town:Time does not generate historical photographs.
 
-All paths are relative, so project-style GitHub Pages URLs work.
+Historical stories include their own text source and are visually identified as `HISTORICAL STORY · NO PERIOD PHOTO`. Approximate dates are labelled as approximate.
 
-If previewing locally, serve it with a static file server, e.g. `python -m http.server 8000` and browse to `http://localhost:8000`.
+The map is a modern reference map, not a reconstruction of past streets. The timeline filters archive records only.
 
-## File layout
+## Services and attribution
 
-- `index.html` — app shell, dialogs, accessible controls.
-- `styles.css` — cinematic interface, responsive layouts, animations.
-- `app.js` — map, interactions, API fetches, local storage, tour, and comparison.
-- `data.js` — curated Hinckley starter records with source/attribution metadata.
-- `.nojekyll` — disables Jekyll processing for GitHub Pages.
+- Vector map: [OpenFreeMap](https://openfreemap.org/) using its documented MapLibre style. OpenFreeMap/OpenMapTiles/OpenStreetMap attribution is supplied by the style and MapLibre attribution control.
+- Archive images: [Wikimedia Commons](https://commons.wikimedia.org/), with per-image creator and licence metadata in the interface.
+- Historical story sources: linked per record.
 
-## Free services / operational notes
+OpenFreeMap is an external public service without an SLA. The application detects startup/source failure and removes the map canvas rather than leaving broken map fragments. Archive browsing continues to work.
 
-- OpenStreetMap tiles (public tile server fair-usage policy). For significant traffic, switch to a dedicated tile provider or self-hosted tiles.
-- OSM Nominatim for searches (public-service fair usage, **not suitable for autocomplete**).
-- Wikimedia Commons API for photo discovery and Commons `Special:FilePath` for images (subject to availability and re-use licences).
-- Google Maps URLs only for optional Street View navigation; no Google API key.
-- National Library of Scotland links for historic map reference (the app does not copy or embed their map tiles).
-- Fonts and Leaflet downloaded at runtime from Google Fonts and unpkg. If those CDNs are unavailable, the site uses browser fallback fonts and shows an offline map notice. There is no offline geodata cache.
+## Local preview
 
-## Data integrity & legal
+Serve the repository root with any static web server and open `index.html` through that server. Direct `file://` loading is not recommended because browsers may restrict external requests.
 
-Photos are **not** automatically historic simply because Commons reports a location. Auto-discovered photographs remain explicitly *date unverified*. The curate-and-publish workflow should confirm capture dates, camera locations and licensing before adding any new images to `data.js`.
+## Publishing
 
-The present-day map is not historically reconstructed by the slider. Historic stories (e.g., Castle Street pedestrianisation) are labelled as approximations where precise dates are not verified. Photo comparisons are labelled as different camera viewpoints when appropriate.
-
-Curated photo credit and licensing information are attached individually in `data.js`. Review each Wikimedia image source page for permissions before reuse. The app has no telemetry or tracking.
-
-## Future enhancements
-
-- Confirmed pre-1950 Hinckley photographs after rights and place/date research.
-- Curated themes (lost railways, old shops, industry, wartime places).
-- Opt-in community memory submissions would require an external service and moderation; current memories stay on the visitor's browser.
-- A licensable historical map overlay only once terms and source are confirmed.
+GitHub Pages should deploy from `main` at the repository root. `.nojekyll` is included.
